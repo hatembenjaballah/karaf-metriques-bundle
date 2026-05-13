@@ -2,7 +2,7 @@
     'use strict';
 
     // URL absolue pour le flux SSE
-    const streamUrl = '/dashboard/stream';
+    const streamUrl = '/metriques/dashboard/stream';
 
     // Formatage
     function formatBytes(bytes) {

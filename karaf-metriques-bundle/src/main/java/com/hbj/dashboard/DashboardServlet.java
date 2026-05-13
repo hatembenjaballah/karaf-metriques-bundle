@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Component(
     service = Servlet.class,
     property = {
-        HttpWhiteboardConstants.HTTP_WHITEBOARD_SERVLET_PATTERN + "=/dashboard/*",
+        HttpWhiteboardConstants.HTTP_WHITEBOARD_SERVLET_PATTERN + "=/metriques/dashboard/*",
         HttpWhiteboardConstants.HTTP_WHITEBOARD_CONTEXT_SELECT + "=("
             + HttpWhiteboardConstants.HTTP_WHITEBOARD_CONTEXT_NAME + "=default)"
     }

@@ -1,6 +1,8 @@
 # Karaf Machine Dashboard
-
+[![Release](https://img.shields.io/badge/version-2.1.0-blue)](https://github.com/hatembenjaballah/karaf-metriques-bundle/releases)
 Un tableau de bord de monitoring système en **temps réel** pour [Apache Karaf](https://karaf.apache.org/), utilisant **Server-Sent Events (SSE)** pour une remontée instantanée des métriques **CPU, mémoire, disque et réseau**.
+
+- 🖥️** URL ** : http://<host>:<port>/metriques/dashboard 
 
 ![Aperçu du dashboard](screenshot.png)
 
