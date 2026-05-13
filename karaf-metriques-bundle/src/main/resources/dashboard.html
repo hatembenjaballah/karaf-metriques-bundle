@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apache Karaf – Monitoring Temps Réel</title>
+    <link rel="stylesheet" href="/dashboard/css/dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖥️ Apache Karaf – Métriques Système</h1>
+            <div class="status-bar">
+                <span id="lastUpdate" class="last-update">Dernière mise à jour : --</span>
+            </div>
+        </header>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-icon">⚡</span>
+                    <h2>CPU</h2>
+                </div>
+                <div class="metric-value">
+                    <span id="cpuValue" class="value">--</span>
+                    <span class="unit">%</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="cpuBar" class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-icon">🧠</span>
+                    <h2>Mémoire</h2>
+                </div>
+                <div class="metric-value">
+                    <span id="memValue" class="value">--</span>
+                    <span class="unit">%</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="memBar" class="progress-fill memory" style="width: 0%"></div>
+                </div>
+                <div id="memDetails" class="metric-details">-- / --</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-icon">💾</span>
+                    <h2>Disque</h2>
+                </div>
+                <div class="metric-value">
+                    <span id="diskValue" class="value">--</span>
+                    <span class="unit">%</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="diskBar" class="progress-fill disk" style="width: 0%"></div>
+                </div>
+                <div id="diskDetails" class="metric-details">-- / --</div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <h3>📊 Métriques Détaillées</h3>
+            <table id="metricsTable">
+                <thead>
+                    <tr>
+                        <th>Métrique</th>
+                        <th>Valeur Actuelle</th>
+                        <th>Utilisation (%)</th>
+                        <th>Total</th>
+                        <th>Utilisé</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="network-container">
+            <h3>🌐 Interfaces Réseau</h3>
+            <table class="network-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Statut</th>
+                        <th>Adresse(s)</th>
+                        <th>MAC</th>
+                    </tr>
+                </thead>
+                <tbody id="networkTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/dashboard/js/dashboard.js"></script>
+</body>
+</html>
