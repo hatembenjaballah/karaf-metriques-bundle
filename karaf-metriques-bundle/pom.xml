@@ -22,7 +22,7 @@
 
     <groupId>com.hbj</groupId>
     <artifactId>karaf-metriques-bundle</artifactId>
-    <version>2.1.0</version>
+    <version>4.0.0</version>
     <packaging>bundle</packaging>
 
     <name>Machine Dashboard SSE for Apache Karaf</name>
@@ -58,6 +58,18 @@
             <version>1.3.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+		    <groupId>org.osgi</groupId>
+		    <artifactId>org.osgi.service.cm</artifactId>
+		    <version>1.6.0</version>
+		    <scope>provided</scope>
+		</dependency>
+		<!-- Gson pour le JSON (si pas déjà présent) -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.10.1</version>
+		</dependency>
     </dependencies>
 
     <build>

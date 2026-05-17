@@ -3,96 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apache Karaf – Métriques Temps Réel</title>
+    <title>Karaf Metrics Dashboard</title>
     <link rel="stylesheet" href="/metriques/dashboard/css/dashboard.css">
+    <!-- Chart.js via CDN (ou locale si tu préfères) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🖥️ Apache Karaf – Métriques Système</h1>
-            <div class="status-bar">
-                <span id="lastUpdate" class="last-update">Dernière mise à jour : --</span>
-            </div>
-        </header>
-
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-header">
-                    <span class="metric-icon">⚡</span>
-                    <h2>CPU</h2>
-                </div>
-                <div class="metric-value">
-                    <span id="cpuValue" class="value">--</span>
-                    <span class="unit">%</span>
-                </div>
-                <div class="progress-bar">
-                    <div id="cpuBar" class="progress-fill" style="width: 0%"></div>
-                </div>
-            </div>
-
-            <div class="metric-card">
-                <div class="metric-header">
-                    <span class="metric-icon">🧠</span>
-                    <h2>Mémoire</h2>
-                </div>
-                <div class="metric-value">
-                    <span id="memValue" class="value">--</span>
-                    <span class="unit">%</span>
-                </div>
-                <div class="progress-bar">
-                    <div id="memBar" class="progress-fill memory" style="width: 0%"></div>
-                </div>
-                <div id="memDetails" class="metric-details">-- / --</div>
-            </div>
-
-            <div class="metric-card">
-                <div class="metric-header">
-                    <span class="metric-icon">💾</span>
-                    <h2>Disque</h2>
-                </div>
-                <div class="metric-value">
-                    <span id="diskValue" class="value">--</span>
-                    <span class="unit">%</span>
-                </div>
-                <div class="progress-bar">
-                    <div id="diskBar" class="progress-fill disk" style="width: 0%"></div>
-                </div>
-                <div id="diskDetails" class="metric-details">-- / --</div>
+    <div class="dashboard">
+        <h1>📊 Karaf Metrics Dashboard</h1>
+        <!-- Ligne 1 : CPU, Mémoire, Disque, Threads -->
+        <div class="grid">
+            <div class="card"><h2>🖥️ CPU</h2><div class="metric" id="cpu">--%</div><div class="progress-bar"><div class="progress-fill" id="cpu-bar" style="width:0%"></div></div></div>
+            <div class="card"><h2>🧠 Mémoire</h2><div class="metric" id="mem-used">--</div><div class="progress-bar"><div class="progress-fill" id="mem-bar" style="width:0%"></div></div><small id="mem-detail"></small></div>
+            <div class="card"><h2>💾 Disque</h2><div class="metric" id="disk-used">--</div><div class="progress-bar"><div class="progress-fill" id="disk-bar" style="width:0%"></div></div><small id="disk-detail"></small></div>
+            <div class="card"><h2>🧵 Threads</h2><div class="metric" id="threads-current">--</div><small>Pic : <span id="threads-peak"></span></small></div>
+        </div>
+        <!-- Ligne 2 : Graphique historique + Uptime + Services + Classes -->
+        <div class="grid" style="margin-top:20px;">
+            <div class="card" style="grid-column: span 2;"><h2>📈 Historique CPU / Mémoire</h2><div class="chart-container"><canvas id="historyChart"></canvas></div></div>
+            <div class="card"><h2>⏱️ Uptime JVM</h2><div class="metric" id="jvm-uptime">--</div></div>
+            <div class="card"><h2>📦 Services OSGi</h2><div class="metric" id="service-count">--</div></div>
+            <div class="card"><h2>📚 Classes chargées</h2><div class="metric" id="classes-loaded">--</div><small>Déchargées : <span id="classes-unloaded"></span></small></div>
+        </div>
+        <!-- Ligne 3 : Répartition bundles + Tableau paginé -->
+        <div class="grid" style="margin-top:20px;">
+            <div class="card"><h2>📊 Bundles par état</h2><div class="chart-container" style="height:250px;"><canvas id="bundleChart"></canvas></div></div>
+            <div class="card" style="grid-column: span 2;">
+                <h2>📋 Liste des bundles</h2>
+                <table id="bundle-table"><thead><tr><th>ID</th><th>Nom symbolique</th><th>État</th></tr></thead><tbody></tbody></table>
+                <div class="pagination" id="pagination"><button id="prevBtn">Précédent</button><span id="pageInfo"></span><button id="nextBtn">Suivant</button></div>
             </div>
         </div>
-
-        <div class="table-container">
-            <h3>📊 Métriques Détaillées</h3>
-            <table id="metricsTable">
-                <thead>
-                    <tr>
-                        <th>Métrique</th>
-                        <th>Valeur Actuelle</th>
-                        <th>Utilisation (%)</th>
-                        <th>Total</th>
-                        <th>Utilisé</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <div class="network-container">
-            <h3>🌐 Interfaces Réseau</h3>
-            <table class="network-table">
-                <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Statut</th>
-                        <th>Adresse(s)</th>
-                        <th>MAC</th>
-                    </tr>
-                </thead>
-                <tbody id="networkTableBody"></tbody>
-            </table>
+        <!-- Ligne 4 : GC et Configurations -->
+        <div class="grid" style="margin-top:20px;">
+            <div class="card"><h2>🗑️ Garbage Collector</h2><div id="gc-info" style="margin-top:10px;"></div></div>
+            <div class="card"><h2>⚙️ Configurations</h2><ul id="config-list" style="list-style:none; padding:0; max-height:200px; overflow-y:auto;"></ul></div>
         </div>
     </div>
-
     <script src="/metriques/dashboard/js/dashboard.js"></script>
 </body>
 </html>
