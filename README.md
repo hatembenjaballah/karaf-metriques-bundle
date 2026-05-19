@@ -1,6 +1,6 @@
 # Karaf Metrics Dashboard
 
-[![Release](https://img.shields.io/badge/version-2.1.0-blue)](https://github.com/hatembenjaballah/karaf-metriques-bundle/releases)
+[![Release](https://img.shields.io/badge/version-4.2.0-blue)](https://github.com/hatembenjaballah/karaf-metriques-bundle/releases)
 
 Un bundle OSGi pour Apache Karaf qui fournit un **tableau de bord web temps réel** des métriques système et JVM, enrichi de graphiques, d’un système d’alertes configurables et de notifications par e‑mail.
 
