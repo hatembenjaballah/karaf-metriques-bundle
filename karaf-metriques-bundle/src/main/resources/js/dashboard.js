@@ -1,4 +1,3 @@
-// Initialisation des graphiques
 const ctxHistory = document.getElementById('historyChart').getContext('2d');
 const historyChart = new Chart(ctxHistory, {
     type: 'line',
@@ -68,17 +67,14 @@ const bundleChart = new Chart(ctxBundle, {
     }
 });
 
-// Historique limité à 20 points
 const maxHistory = 20;
 let cpuHistory = [];
 let memHistory = [];
 
-// Pagination bundles
 const bundlesPerPage = 10;
 let currentPage = 1;
 let allBundles = [];
 
-// Connexion SSE
 const source = new EventSource('/metriques/dashboard/stream');
 source.onmessage = function (event) {
     try {
@@ -91,12 +87,10 @@ source.onmessage = function (event) {
 source.onerror = () => console.error('Erreur SSE');
 
 function updateUI(data) {
-    // CPU
     const cpu = data.cpu || 0;
     document.getElementById('cpu').textContent = cpu.toFixed(1) + '%';
     document.getElementById('cpu-bar').style.width = cpu.toFixed(1) + '%';
 
-    // Mémoire
     if (data.memory) {
         const memUsed = data.memory.used;
         const memMax = data.memory.max;
@@ -106,7 +100,6 @@ function updateUI(data) {
         document.getElementById('mem-detail').textContent = `Max: ${memMax} Mo (${memPercent.toFixed(1)}%)`;
     }
 
-    // Disque
     if (data.disk) {
         const diskUsed = data.disk.used;
         const diskTotal = data.disk.total;
@@ -116,23 +109,19 @@ function updateUI(data) {
         document.getElementById('disk-detail').textContent = `Total: ${diskTotal} Go (${diskPercent.toFixed(1)}%)`;
     }
 
-    // Threads
     if (data.jvm) {
         document.getElementById('threads-current').textContent = data.jvm.threadCount;
         document.getElementById('threads-peak').textContent = data.jvm.peakThreadCount;
 
-        // Uptime
         const uptimeSec = data.jvm.uptime / 1000;
         const days = Math.floor(uptimeSec / 86400);
         const hours = Math.floor((uptimeSec % 86400) / 3600);
         const mins = Math.floor((uptimeSec % 3600) / 60);
         document.getElementById('jvm-uptime').textContent = `${days}j ${hours}h ${mins}m`;
 
-        // Classes
         document.getElementById('classes-loaded').textContent = data.jvm.classes.loadedCount;
         document.getElementById('classes-unloaded').textContent = data.jvm.classes.unloadedCount;
 
-        // GC
         let gcHtml = '';
         if (data.jvm.gc) {
             gcHtml += `<p>Total collectes : ${data.jvm.gc.totalCollectionCount}</p>`;
@@ -144,7 +133,6 @@ function updateUI(data) {
         document.getElementById('gc-info').innerHTML = gcHtml;
     }
 
-    // Historique CPU / Mémoire
     cpuHistory.push(cpu);
     memHistory.push(data.memory ? data.memory.percent : 0);
     if (cpuHistory.length > maxHistory) cpuHistory.shift();
@@ -155,24 +143,20 @@ function updateUI(data) {
     historyChart.data.datasets[1].data = memHistory;
     historyChart.update();
 
-    // Bundles
     if (data.osgi && data.osgi.bundles) {
         const bundles = data.osgi.bundles;
         document.getElementById('service-count').textContent = data.osgi.serviceCount || 0;
 
-        // Doughnut : répartition par état
         const states = ['ACTIVE', 'INSTALLED', 'RESOLVED', 'STARTING', 'STOPPING', 'UNINSTALLED'];
         const counts = states.map(s => bundles.byState[s] || 0);
         bundleChart.data.datasets[0].data = counts;
         bundleChart.update();
 
-        // Tableau paginé
         allBundles = bundles.list || [];
         currentPage = Math.min(currentPage, Math.ceil(allBundles.length / bundlesPerPage) || 1);
         renderBundleTable();
     }
 
-    // Configurations
     if (data.osgi && data.osgi.configurations) {
         const configs = data.osgi.configurations;
         let configHtml = '';
@@ -203,7 +187,6 @@ function renderBundleTable() {
     document.getElementById('nextBtn').disabled = currentPage >= totalPages;
 }
 
-// Contrôles pagination
 document.getElementById('prevBtn').addEventListener('click', () => {
     if (currentPage > 1) { currentPage--; renderBundleTable(); }
 });

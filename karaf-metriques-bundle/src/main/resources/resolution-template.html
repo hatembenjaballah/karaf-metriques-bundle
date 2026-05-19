@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .header { background: #27ae60; color: white; padding: 20px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 20px; }
+        .footer { text-align: center; padding: 15px; font-size: 12px; color: #aaa; border-top: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✅ Résolution d'alerte</h1>
+        </div>
+        <div class="content">
+            <p>Toutes les métriques sont revenues sous les seuils définis.</p>
+            <p>Dernier état : CPU {{cpu}}%, Mémoire {{memory}}%, Disque {{disk}}%</p>
+        </div>
+        <div class="footer">
+            Karaf Metrics Dashboard - Résolution générée le {{timestamp}}
+        </div>
+    </div>
+</body>
+</html>

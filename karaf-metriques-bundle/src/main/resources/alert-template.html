@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .header { background: #e74c3c; color: white; padding: 20px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 20px; }
+        .metric { margin-bottom: 15px; }
+        .metric h2 { font-size: 18px; color: #333; margin: 0 0 5px 0; }
+        .value { font-size: 24px; font-weight: bold; }
+        .threshold { font-size: 14px; color: #888; }
+        .summary { background: #f8f9fa; padding: 15px; border-radius: 6px; margin-top: 20px; }
+        .summary p { margin: 5px 0; font-size: 14px; }
+        .footer { text-align: center; padding: 15px; font-size: 12px; color: #aaa; border-top: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 Alerte Karaf Metrics</h1>
+        </div>
+        <div class="content">
+            {{#cpuAlert}}
+            <div class="metric">
+                <h2>🖥️ CPU</h2>
+                <div class="value">{{cpuValue}}%</div>
+                <div class="threshold">Seuil : {{cpuThreshold}}%</div>
+            </div>
+            {{/cpuAlert}}
+            {{#memAlert}}
+            <div class="metric">
+                <h2>🧠 Mémoire</h2>
+                <div class="value">{{memPercent}}% ({{memUsed}} Mo / {{memMax}} Mo)</div>
+                <div class="threshold">Seuil : {{memoryThreshold}}%</div>
+            </div>
+            {{/memAlert}}
+            {{#diskAlert}}
+            <div class="metric">
+                <h2>💾 Disque</h2>
+                <div class="value">{{diskPercent}}% ({{diskUsed}} Go / {{diskTotal}} Go)</div>
+                <div class="threshold">Seuil : {{diskThreshold}}%</div>
+            </div>
+            {{/diskAlert}}
+
+            <div class="summary">
+                <p><strong>Résumé :</strong></p>
+                <p>Threads actifs : {{threadCount}} (pic : {{peakThreadCount}})</p>
+                <p>Uptime JVM : {{jvmUptime}}</p>
+                <p>Bundles actifs : {{activeBundles}} / {{totalBundles}}</p>
+                <p>GC : {{gcCount}} collectes, {{gcTime}} ms</p>
+            </div>
+        </div>
+        <div class="footer">
+            Karaf Metrics Dashboard - Alerte générée le {{timestamp}}
+        </div>
+    </div>
+</body>
+</html>
