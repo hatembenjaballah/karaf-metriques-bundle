@@ -41,7 +41,7 @@ Un bundle OSGi pour Apache Karaf qui fournit un **tableau de bord web temps rée
 
 1. **Cloner le dépôt** :
    ```bash
-   git clone https://github.com/ton-utilisateur/karaf-metriques-bundle.git
+   git clone https://github.com/hatembenjaballah/karaf-metriques-bundle.git
    cd karaf-metriques-bundle
    mvn clean install
    cp target/karaf-metriques-bundle-4.2.0.jar <repo karaf>/deploy
