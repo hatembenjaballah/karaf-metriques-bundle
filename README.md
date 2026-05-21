@@ -46,7 +46,7 @@ Un bundle OSGi pour Apache Karaf qui fournit un **tableau de bord web temps rée
    mvn clean install
    cp target/karaf-metriques-bundle-4.2.0.jar <repo karaf>/deploy
    ```
-   
+2. **Les features suivantes doivent être activées dans Karaf** :   
    ```shell
    feature:install http
    feature:install http-whiteboard
