@@ -48,6 +48,6 @@ Un bundle OSGi pour Apache Karaf qui fournit un **tableau de bord web temps rée
    ```
    
    ```shell
-	feature:install http
-	feature:install http-whiteboard
+   feature:install http
+   feature:install http-whiteboard
 	```
