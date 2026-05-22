@@ -286,11 +286,31 @@ public class DashboardServlet extends HttpServlet {
 
     private String buildResolutionHtml(Map<String, Object> metrics) throws IOException {
         Map<String, Object> data = new HashMap<>();
-        data.put("cpu", metrics.getOrDefault("cpu", "?"));
+
+        // CPU
+        Object cpuObj = metrics.get("cpu");
+        if (cpuObj instanceof Number) {
+            data.put("cpu", String.format("%.1f", ((Number) cpuObj).doubleValue()));
+        } else {
+            data.put("cpu", cpuObj != null ? cpuObj.toString() : "?");
+        }
+
+        // Mémoire
         Map<String, Object> mem = (Map<String, Object>) metrics.get("memory");
-        data.put("memory", mem != null ? mem.get("percent") : "?");
+        if (mem != null && mem.get("percent") instanceof Number) {
+            data.put("memory", String.format("%.1f", ((Number) mem.get("percent")).doubleValue()));
+        } else {
+            data.put("memory", mem != null ? mem.get("percent").toString() : "?");
+        }
+
+        // Disque
         Map<String, Object> disk = (Map<String, Object>) metrics.get("disk");
-        data.put("disk", disk != null ? disk.get("percent") : "?");
+        if (disk != null && disk.get("percent") instanceof Number) {
+            data.put("disk", String.format("%.1f", ((Number) disk.get("percent")).doubleValue()));
+        } else {
+            data.put("disk", disk != null ? disk.get("percent").toString() : "?");
+        }
+
         data.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         String template = TemplateEngine.loadTemplate("resolution-template.html");

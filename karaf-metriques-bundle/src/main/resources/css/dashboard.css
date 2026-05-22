@@ -73,17 +73,19 @@ canvas {
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin-top: 10px;
 }
 th, td {
-    padding: 10px 12px;
+    padding: 8px 10px;
     text-align: left;
     border-bottom: 1px solid #2d3b4f;
 }
 th {
     color: #8a9bb5;
     font-weight: 500;
+    cursor: pointer;
+    user-select: none;
 }
 td {
     color: #d0d0d0;
